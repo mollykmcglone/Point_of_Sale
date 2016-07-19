@@ -7,6 +7,7 @@ require("sinatra/activerecord")
 require("product")
 require("purchase")
 
+
 RSpec.configure do |config|
   config.after(:each) do
     Purchase.all().each() do |purchase|

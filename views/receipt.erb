@@ -1,0 +1,10 @@
+<h1>Thank you for your business!<h1>
+
+<h3> You Purchased:<h3>
+<ul>
+  <% @products.each do |product| %>
+    <li><%= product.name %>, <%= product.price %></li>
+  <% end %>
+</ul>
+
+<h3> Your Total is: $<%= @total %><h3>

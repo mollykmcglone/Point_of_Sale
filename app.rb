@@ -10,6 +10,10 @@ get ('/') do
   erb(:index)
 end
 
+get ('/pos') do
+  erb(:pos)
+end
+
 get ('/manager') do
   erb(:pos)
 end
@@ -19,6 +23,14 @@ get ('/cashier') do
 end
 
 get ('/products') do
+  @products = Product.not_sold()
+  erb(:products)
+end
+
+post ('/products') do
+  name = params.fetch('name')
+  price = params.fetch('price').to_f
+  @product = Product.create({:name => name, :price => price, :sold => false})
   @products = Product.not_sold()
   erb(:products)
 end
@@ -47,28 +59,23 @@ delete ('/products') do
   erb(:products)
 end
 
-
-post ('/products') do
-  name = params.fetch('name')
-  price = params.fetch('price')
-  @product = Product.create({:name => name, :price => price, :sold => false})
-  @products = Product.not_sold()
-  erb(:products)
-end
-
 get ('/purchases/new') do
   @products = Product.not_sold()
   erb(:purchase)
 end
 
-post ('/purchase') do
+post ('/receipt') do
   purchase = Purchase.create()
   product_ids = params['product_ids']
+  @products = []
+  @total = 0
   product_ids.each do |product_id|
-    Product.find({id: product_id}).update({purchase_id: purchase.id, sold: true})
+    product = Product.find(product_id)
+    product.update({purchase_id: purchase.id, sold: true})
+    @products.push(product)
+    @total += product.price
   end
-  @products = Product.not_sold
-  erb(:purchase)
+  erb(:receipt)
 end
 
 get ('/purchases') do
@@ -80,8 +87,9 @@ post ('/purchases') do
   @end = params['end_date']
   @total = 0
   Purchase.between(@start, @end).each do |purchase|
-    Product.find({purchase_id: purchase.id}).each do |product|
+    Product.where(purchase_id: purchase.id).each do |product|
       @total += product.price
     end
   end
+  erb(:purchases)
 end
