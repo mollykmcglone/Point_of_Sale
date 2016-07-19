@@ -1,0 +1,33 @@
+<h1> Product Information <h1>
+
+<h3> Name: <%= @product.name() %> </h3>
+
+<h3> Price: <%= @product.price() %></h3>
+
+<h3> In stock: <%= !@product.sold() %> </h3>
+
+<h1>Update <%= @product.name() %>'s Information </h1>
+
+<form action="/product/<%= @product.id() %>" method="post">
+  <input name="_method" type="hidden" value="patch">
+  <div class="form-group">
+    <label for="name">Name:</label>
+    <input type = "text" name="name" id="name">
+  <div>
+  <div class="form_group">
+    <label for="price">Price:</label>
+    <input type="text" name="price" id="price">
+  </div>
+
+  <br><button type="submit">Update</button><br>
+</form>
+<br>
+
+<h1>Delete <%= @product.name() %></h1>
+<form action="/products" method="post">
+  <input name="_method" type="hidden" value="delete">
+  <input name="id" type="hidden" value="<%= @product.id %>">
+  <button type="submit">Delete Product</button>
+</form>
+
+<a href="/products">Back to Products</a>

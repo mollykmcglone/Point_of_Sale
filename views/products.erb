@@ -1,0 +1,14 @@
+<h1> Here's the store's inventory:</h1>
+<% if @products.any?() %>
+<ul>
+  <% @products.each do |product| %>
+  <li><%= product.name() %>
+  <button type='button'><a href='/product/<%= product.id() %>'>View Details</a></button>
+  </li><br>
+  <% end %>
+</ul>
+<% else %>
+<h2> You don't have any products yet!</h2>
+<% end %>
+
+<a href="/manager">Back to Point of Sale</a>

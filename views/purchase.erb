@@ -1,0 +1,10 @@
+<h1>Sale</h1>
+<% if @products.any %>
+<form action="/purchase" method="post">
+  <% @products.each do |variable| %>
+    <input type="checkbox" name="product_ids[]" value="<%= product.id %>"> <%= product.name %> </br>
+  <% end %>
+  <button type="submit" name="submit">Checkout</button>
+</form>
+
+<a href="/pos">Back to Point of Sale</a>
